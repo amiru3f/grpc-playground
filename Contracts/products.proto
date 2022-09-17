@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package productContracts;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service ProductService {
+    
+    rpc GetAll(google.protobuf.Empty) returns(Products) {
+        option (google.api.http) = {
+            get: "/products"
+        };
+    }
+
+    rpc GetById(ProductIdFilter) returns (Product){
+        option (google.api.http) = {
+            get: "/product"
+        };
+    }
+
+    rpc InsertProduct(Product) returns (Product) {
+        option (google.api.http) = {
+            put: "/product",
+        };
+    }
+
+    rpc UpdateProduct(Product) returns (Product) {
+        option (google.api.http) = {
+            post: "/product",
+        };
+    }
+
+    rpc StreamReply(google.protobuf.Empty) returns (stream Message);
+
+    rpc Hello(HelloRequest) returns (HelloResponse) {
+        option (google.api.http) = {
+            get: "/hello"
+        };
+    }
+}
+
+
+
+message HelloResponse {
+    string body = 1;
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+
+message Product{
+     int32 id  = 1;
+     string name = 2;
+     int32 price = 3;
+     optional string description = 4;
+}
+
+
+message ProductIdFilter{ 
+     int32 id = 1;
+}
+
+message Products {
+    repeated Product items = 1;
+}
+
+message Message {
+    string body = 1;
+}

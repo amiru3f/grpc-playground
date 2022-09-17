@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api:
+    container_name: grpc_api
+    build:
+      dockerfile: Dockerfile.Api
+      context: .
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - internal
+  client:
+    container_name: grpc_client
+    build:
+      dockerfile: Dockerfile.Client
+      context: .
+    environment:
+      - Api_ADDRESS=http://grpc_api:8080
+    networks:
+      - internal
+  envoy:
+    image: envoyproxy/envoy-dev:latest
+    ports:
+      - "8811:8811"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./Contracts/products.pb:/products.pb
+networks:
+  internal:
+    driver: bridge
