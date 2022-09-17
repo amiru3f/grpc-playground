@@ -35,7 +35,7 @@ service ProductService {
 
     rpc Hello(HelloRequest) returns (HelloResponse) {
         option (google.api.http) = {
-            get: "/hello"
+            get: "/hello/{name}"
         };
     }
 }
