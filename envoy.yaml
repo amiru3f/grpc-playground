@@ -22,7 +22,11 @@ static_resources:
               domains:
               - "*"
               routes:
-              - match: {prefix: "/helloworld.Greeter"}
+              - match: {prefix: "/hello"}
+                route: {cluster: backend_grpc_service, timeout: 60s}
+              - match: {prefix: "/product"}
+                route: {cluster: backend_grpc_service, timeout: 60s}
+              - match: {prefix: "/products"}
                 route: {cluster: backend_grpc_service, timeout: 60s}
               - match:
                   prefix: "/"
@@ -33,7 +37,7 @@ static_resources:
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-              proto_descriptor: "/products.pb"
+              proto_descriptor: "/proto-path/products.pb"
               services: ["productContracts.ProductService"]
               print_options:
                 add_whitespace: true
@@ -59,5 +63,5 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: host.docker.internal
-                port_value: 5000
+                address: grpc_api
+                port_value: 8080

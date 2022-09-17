@@ -20,12 +20,14 @@ services:
     networks:
       - internal
   envoy:
-    image: envoyproxy/envoy-dev:latest
+    image: envoyproxy/envoy-dev:0d0596315a40f0da502af1a9a885d6def0e5e02e
     ports:
       - "8811:8811"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-      - ./Contracts/products.pb:/products.pb
+      - ./Contracts:/proto-path
+    networks:
+      - internal
 networks:
   internal:
     driver: bridge
