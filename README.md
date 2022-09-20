@@ -22,4 +22,6 @@ This playground  contains the source to play with Grpc Transcoding, Grpc Reflect
 * Grant exec permission to run.sh
 * Start using ```./run.sh```
 
+## Preview
+![Alt Text](assets/shot.gif)
 
